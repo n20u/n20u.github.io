@@ -1,0 +1,70 @@
+---
+layout: compress
+---
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang }}">
+{% include head.html %}
+
+<body class="site">
+    {% if page.featured-img %}
+    <div class="hero lazyload" data-bg="{{ assets_url }}/assets/img/posts/{{ page.featured-img }}.jpg">
+    {% else %}
+    <div class="hero dark-bg">
+    {% endif %}
+        <div class="hero__wrap">
+            {% if post.categories or page.categories %}
+                {% if post %}
+                    {% assign categories = post.categories %}
+                {% else %}
+                    {% assign categories = page.categories %}
+                {% endif %}
+                {% for category in categories %}
+                    <a class="label" href="{{ site.url }}/categories/#{{category|slugize}}">{{category}}</a>
+                    {% unless forloop.last %}&nbsp;{% endunless %}
+                {% endfor %}
+            {% endif %}
+            <h1 class="hero__title">{{ page.title }}</h1>
+            <p class="hero__meta">
+                {{ page.date | date: site.date_format }}&nbsp;&middot;
+                {% assign words = content | number_of_words %}
+                {% if words < 360 %}
+                    1 min
+                {% else %}
+                    {{ words | divided_by:180 }} mins
+                {% endif %} read
+            </p>
+        </div>
+    </div>
+
+    <main class="site__content">
+        <div class="container">
+            <article class="post-content">{{ content }}</article>
+            <div class="post-content controls__inner">
+                <div class="controls__item prev">
+                    {% if page.previous.url %}
+                        <span>Previous</span>
+                        <a href="{{page.previous.url | relative_url }}">
+                            &laquo;
+                            {{page.previous.title | strip_html | truncate: 30}}
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="controls__item next">
+                    {% if page.next.url %}
+                        <span>Next</span>
+                        <a href="{{page.next.url | relative_url }}">
+                            {{page.next.title | strip_html | truncate: 30}}
+                            &raquo;
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% include gitalk.html %}
+        </div>
+    </main>
+
+    {% include footer.html %}
+    {% include mathjax.html %}
+</body>
+
+</html>

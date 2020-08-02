@@ -1,0 +1,112 @@
+.hero {
+  height: 50vh;
+  width: 100%;
+  position: relative;
+  background-color: #dde5ea;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+
+  &::before {
+    position: absolute;
+    display: block;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(52, 56, 81, .8);
+  }
+}
+
+.hero--small {
+  height: 25vh;
+  width: 100%;
+  position: relative;
+}
+
+.hero__wrap {
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  z-index: 1;
+
+  @include breakpoint($md) {
+    max-width: 40em;
+  }
+
+  .hero__title {
+    margin: 0;
+    font-size: 1.5em;
+    color: $bg-color;
+
+    @include breakpoint($md) {
+      font-size: 2.625em;
+      line-height: 3.125rem;
+    }
+    @include breakpoint($xl) {
+      font-size: 2.8em;
+      line-height: 3.5rem;
+    }
+  }
+
+  .hero__meta {
+    color: rgba(255,255,255,0.8);
+    margin: 0;
+    
+    @include breakpoint($md) {
+      margin: 0.5em 0;
+    }
+    @include breakpoint($xl) {
+      margin: 1em 0;
+    }
+  }
+}
+
+.page-content {
+  max-width: 52.5rem;
+  margin: 0 auto;
+  padding: 1em 0;
+}
+
+.blog {
+  background-color: #f9f9f9;
+}
+
+.container {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 100%;
+
+  @include breakpoint($sm) {
+    max-width: 540px
+  }
+  @include breakpoint($md) {
+    max-width: 720px
+  }
+  @include breakpoint($lg) {
+    max-width: 960px
+  }
+  @include breakpoint($sm) {
+    max-width: 1170px
+  }
+}
+
+.post-list {
+  padding-top: 2.5em;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 0 auto;
+}
+
+.archive-group {
+  margin-bottom: 1rem;
+
+  ul {
+    margin: 0;
+  }
+}

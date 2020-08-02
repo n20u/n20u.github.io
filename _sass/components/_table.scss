@@ -1,0 +1,35 @@
+table {
+  display: table;
+  width: 100%;
+  overflow-x: scroll;
+  margin-bottom: 1.25rem;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid $border;
+  border-radius: 4px;
+  font-size: 12.5px;
+  @include breakpoint($xs) {
+    font-size: 13.5px;
+  }
+  @include breakpoint($md) {
+    font-size: 14.5px;
+  }
+
+  th {
+    background-color: $light-bg-color;
+  }
+
+  th,
+  td {
+    padding: 6px 6px;
+    border: 1px solid $border;
+    @include breakpoint($xs) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    @include breakpoint($md) {
+      padding-left: 13px;
+      padding-right: 13px;
+    }
+  }
+}

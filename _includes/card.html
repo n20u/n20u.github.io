@@ -1,0 +1,35 @@
+<div class="post-card">
+    {% if post.categories %}
+        <span class="post-card__label">
+            {% for category in post.categories %}
+                <a href="{{ site.url }}/categories/#{{category|slugize}}" class="label"> {{ category }} </a>
+                {% unless forloop.last %}&nbsp;{% endunless %}
+            {% endfor %}
+        </span>
+    {% endif %}
+    <a href="{{ post.url | relative_url }}">
+        {% if post.featured-img %}
+            <figure class="post-card__thumb">
+                <img src="{{ assets_url }}/assets/img/posts/{{post.featured-img}}_placehold.jpg" data-srcset="{{ assets_url }}/assets/img/posts/{{post.featured-img}}_thumb.jpg, {{ assets_url }}/assets/img/posts/{{post.featured-img}}_thumb@2x.jpg 2x" class="lazyload blur" alt="{{post.title}}"/>
+                <noscript><img src="{{ assets_url }}/assets/img/posts/{{post.featured-img}}_thumb.jpg" alt="{{ post.title }}"/></noscript>
+            </figure>
+        {% else %}
+            <figure class="post-card__thumb">
+                <div class="dark-bg"></div>
+            </figure>
+        {% endif %}
+    </a>
+    <a class="post-card__inner" href="{{ post.url | relative_url }}">
+        <h2 class="post-card__header">{{ post.title | strip_html | truncate: 50 }}</h2>
+        <time class="post-card__meta">{{ post.date | date: site.date_format }}</time>
+        <p class="post-card__description">
+            {% if post.description %}
+                {{ post.description | strip_html | truncatewords: 20 }}
+            {% elsif post.excerpt | number_of_words > 10 %}
+                {{ post.excerpt | strip_html | truncatewords: 20 }}
+            {% else %}
+                {{ post.content | strip_html | truncatewords: 20 }}
+            {% endif %}
+        </p>
+    </a>
+</div>

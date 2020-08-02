@@ -1,0 +1,24 @@
+---
+layout: compress
+---
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang }}">
+{% include head.html %}
+
+<body class="site">
+    <div class="hero--small">
+        <div id="particles-js">
+            <div class="hero__wrap">
+                <h1 class="hero__title">{{ page.title }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <main class="site__content container">
+        <div class="page-content">{{ content }}</div>
+    </main>
+
+    {% include footer.html %}
+</body>
+
+</html>
