@@ -10,9 +10,7 @@ username: n20u
 user_description: I\'m a nomad Software Engineer, always searching for the next challenge; no task is too scary nor too difficult.
 user_title: 孤单，是一个人的狂欢
 email: gezhiwanhun@qq.com
-github_username:  n20u
 repo: n20u.github.io
-repository: n20u/n20u.github.io # github user/repository
 
 exclude: ['package.json', 'src' , 'node_modules']
 

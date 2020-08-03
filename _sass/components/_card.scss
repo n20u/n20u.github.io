@@ -4,6 +4,7 @@
   width: 100%;
   min-height: 250px;
   border-radius: 4px;
+  overflow: hidden;
   background-color: $bg-color;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   margin-bottom: 2.25rem; // don't use % value see more: https://github.com/philipwalton/flexbugs/issues/86

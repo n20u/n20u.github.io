@@ -16,7 +16,7 @@
     <meta name="description" content="{{ description | strip_html | truncate: 160 }}">
     
     {% if site.cdn.jsdelivr.enabled %}
-        {% assign assets_url = "https://cdn.jsdelivr.net/gh/" | append: site.repository %}
+        {% assign assets_url = "https://cdn.jsdelivr.net/gh/" | append: site.username | append: "/" | append: site.repo %}
     {% else %}
         {% assign assets_url = site.url %}
     {% endif %}
