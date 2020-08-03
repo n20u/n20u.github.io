@@ -71,6 +71,7 @@ code {
   color: $code-text-color;
   background-color: $code-bg-color;
   border-radius: 3px;
+  word-wrap:break-word; 
 }
 
 pre {
