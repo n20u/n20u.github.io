@@ -2,7 +2,6 @@
 layout: post
 title: Getting Started with Sleek
 description: GitHub Pages can automatically generate and serve the website for you. Let's say you have a username/organisation my-org and project my-proj; if you locate Jekyll source under blog folder of master branch in your repo github.com/my-org/my-proj, the website will be served on my-org.github.io/my-proj.
-featured-img: sleek
 categories: 指南
 mathjax: true
 ---
@@ -30,7 +29,6 @@ Create a new Markdown file such as `2017-01-13-my-post.md` in `_post` folder. Co
 ---
 layout: post # needs to be post
 title: Getting Started with Sleek # title of your post
-featured-img: sleek #optional - if you want you can include hero image
 ---
 
 ```
@@ -73,7 +71,6 @@ If you want to use [MathJax](https://www.mathjax.org/) in your posts, add `mathj
 ---
 layout: post
 title: Blog Post with MathJax
-featured-img: sleek # optional - if you want you can include name of hero image
 mathjax: true # add this line in order to enable MathJax in the post
 ---
 ```

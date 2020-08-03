@@ -8,16 +8,10 @@
         </span>
     {% endif %}
     <a href="{{ post.url | relative_url }}">
-        {% if post.featured-img %}
-            <figure class="post-card__thumb">
-                <img src="{{ assets_url }}/assets/img/posts/{{post.featured-img}}_placehold.jpg" data-srcset="{{ assets_url }}/assets/img/posts/{{post.featured-img}}_thumb.jpg, {{ assets_url }}/assets/img/posts/{{post.featured-img}}_thumb@2x.jpg 2x" class="lazyload blur" alt="{{post.title}}"/>
-                <noscript><img src="{{ assets_url }}/assets/img/posts/{{post.featured-img}}_thumb.jpg" alt="{{ post.title }}"/></noscript>
-            </figure>
-        {% else %}
-            <figure class="post-card__thumb">
-                <div class="dark-bg"></div>
-            </figure>
-        {% endif %}
+        <figure class="post-card__thumb">
+            <img src="{{ assets_url }}/assets/img/posts/{{post.slug}}_placehold.jpg" data-srcset="{{ assets_url }}/assets/img/posts/{{post.slug}}_thumb.jpg, {{ assets_url }}/assets/img/posts/{{post.slug}}_thumb@2x.jpg 2x" class="lazyload blur" alt="{{post.title}}"/>
+            <noscript><img src="{{ assets_url }}/assets/img/posts/{{post.slug}}_thumb.jpg" alt="{{ post.title }}"/></noscript>
+        </figure>
     </a>
     <a class="post-card__inner" href="{{ post.url | relative_url }}">
         <h2 class="post-card__header">{{ post.title | strip_html | truncate: 50 }}</h2>

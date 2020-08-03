@@ -6,11 +6,7 @@ layout: compress
 {% include head.html %}
 
 <body class="site">
-    {% if page.featured-img %}
-    <div class="hero lazyload" data-bg="{{ assets_url }}/assets/img/posts/{{ page.featured-img }}.jpg">
-    {% else %}
-    <div class="hero dark-bg">
-    {% endif %}
+    <div class="hero lazyload" data-bg="{{ assets_url }}/assets/img/posts/{{ page.slug }}.jpg">
         <div class="hero__wrap">
             {% if post.categories or page.categories %}
                 {% if post %}
