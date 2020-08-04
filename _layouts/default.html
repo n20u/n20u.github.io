@@ -6,7 +6,7 @@ layout: compress
 {% include head.html %}
 
 <body class="site">
-    <div class="site-header">
+    <div class="site-header" id="header">
         {% include header.html %}
     </div>
     <main class="site__content blog" id="posts">
@@ -51,6 +51,46 @@ layout: compress
     </main>
     
     {% include footer.html %}
+
+    
+    <script type="text/javascript">
+        var header = document.getElementById("header"), height = document.documentElement.clientHeight;
+        if ((navigator.userAgent.toLowerCase().indexOf("firefox") != -1)){
+            document.addEventListener("DOMMouseScroll",scrollFun,false);
+        } else if (document.addEventListener) {
+            document.addEventListener("mousewheel",scrollFun,false);
+        } else if (document.attachEvent) {
+            document.attachEvent("onmousewheel",scrollFun);
+        } else {
+            document.onmousewheel = scrollFun;
+        }
+        function scrollFun(event){
+            var delta = event.wheelDelta || (-event.detail);
+            if (delta > 0 && document.documentElement.scrollTop <= height) {
+                if (document.documentElement.scrollTop == 0 && header.style.display == "none") {
+                    header.style.display = "inline";
+                    document.documentElement.scrollTop = height;
+                }
+                else if (document.documentElement.scrollTop <= height && header.style.display == "inline") {
+                    window.scroll({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                }
+            }
+            if (delta < 0 && header.style.display != "none" && document.documentElement.scrollTop <= height) {
+                window.scroll({
+                    top: height,
+                    behavior: "smooth"
+                });
+                window.setTimeout(() => {
+                    header.style.display="none";
+                    document.documentElement.scrollTop = 0;
+                }, 1000);
+            }
+            endTime = new Date().getTime();
+        }
+    </script>
 </body>
 
 </html>

@@ -17,7 +17,7 @@ categories: 指南
 
 3. [Github Pages 官方文档](https://docs.github.com/cn/github/working-with-github-pages)，这个文档介绍了创建 Github Pages 的步骤，包括使用 Jekyll 创建 Github Pages 的方法，但内容并不详细，相关知识还需要阅读专门的文档。
 ![使用 Github Pages]({{ assets_url }}/assets/img/posts/{{page.slug}}/使用 Github Pages.png)
-如果想仅做一个页面作为 Github Pages 的首页，则只需要看这篇简单的[Github Pages 文档](https://pages.github.com/)就够了。
+如果想仅做一个页面作为 Github Pages 的首页，则只需要看这篇简单的 [Github Pages 文档](https://pages.github.com/)就够了。
 
 4. [Jekyll 文档](http://jekyllcn.com/docs/home/)，这是由[开源爱好者们](https://github.com/xcatliu/jekyllcn/graphs/contributors)共同翻译的 Jekyll 文档，包括一些内容如：搭建和运行站点、创建以及管理内容、定制站点的展现和外观的一些建议。
 ![使用 Jekyll 文档]({{ assets_url }}/assets/img/posts/{{page.slug}}/Jekyll 文档.png)
