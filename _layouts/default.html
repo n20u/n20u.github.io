@@ -9,7 +9,7 @@ layout: compress
     <div class="site-header" id="header">
         {% include header.html %}
     </div>
-    <main class="site__content blog" id="posts">
+    <main class="site__content blog">
         <div class="container post-list">
             {% for post in paginator.posts %}
                 {% include card.html %}
@@ -54,42 +54,88 @@ layout: compress
 
     
     <script type="text/javascript">
-        var header = document.getElementById("header"), height = document.documentElement.clientHeight;
-        if ((navigator.userAgent.toLowerCase().indexOf("firefox") != -1)){
-            document.addEventListener("DOMMouseScroll",scrollFun,false);
-        } else if (document.addEventListener) {
-            document.addEventListener("mousewheel",scrollFun,false);
-        } else if (document.attachEvent) {
-            document.attachEvent("onmousewheel",scrollFun);
-        } else {
-            document.onmousewheel = scrollFun;
-        }
-        function scrollFun(event){
-            var delta = event.wheelDelta || (-event.detail);
-            if (delta > 0 && document.documentElement.scrollTop <= height) {
-                if (document.documentElement.scrollTop == 0 && header.style.display == "none") {
-                    header.style.display = "inline";
-                    document.documentElement.scrollTop = height;
-                }
-                else if (document.documentElement.scrollTop <= height && header.style.display == "inline") {
+        var header = document.getElementById("header"), height = window.innerHeight;
+        var startY, headerDisplay = true, autoScrolling = false, timer, nowScrollTop = document.documentElement.scrollTop;
+
+        function onscrollFun(event) {
+            nowScrollTop = document.documentElement.scrollTop;
+            if (headerDisplay && nowScrollTop >= height) {
+                headerDisplay = false;
+                setTimeout(() => {
+                    header.style.display = "none";
+                }, 0);
+            }
+            if (autoScrolling) {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    autoScrolling = false;
+                }, 30);
+            }
+        };
+
+        function scrollFun(event, delta) {
+            nowScrollTop = document.documentElement.scrollTop;
+            if (autoScrolling || (delta > 0 && nowScrollTop <= 1) || (nowScrollTop <= height && headerDisplay)) {
+                event.preventDefault();
+            }
+            if (delta > 0 && nowScrollTop <= 1 && !headerDisplay && !autoScrolling) {
+                autoScrolling = true;
+                window.onscroll = undefined;
+                header.style.display = "inline";
+                if (nowScrollTop == 0) document.documentElement.scrollTop = height;
+                headerDisplay = true;
+                setTimeout(() => {
                     window.scroll({
                         top: 0,
                         behavior: "smooth"
                     });
-                }
-            }
-            if (delta < 0 && header.style.display != "none" && document.documentElement.scrollTop <= height) {
+                    setTimeout(() => {
+                        window.onscroll = onscrollFun;
+                    }, 30);
+                }, 0);
+            } else if (delta < 0 && headerDisplay && !autoScrolling) {
+                autoScrolling = true;
                 window.scroll({
                     top: height,
                     behavior: "smooth"
                 });
-                window.setTimeout(() => {
-                    header.style.display="none";
-                    document.documentElement.scrollTop = 0;
-                }, 1000);
             }
-            endTime = new Date().getTime();
+        };
+        
+        function downScroll() {
+            autoScrolling = true;
+            window.scroll({
+                top: height,
+                behavior: "smooth"
+            });
+        };
+
+        window.onload = () => {
+            if (nowScrollTop >= height) {
+                header.style.display = "none";
+                headerDisplay = false;
+            }
+        };
+        window.onscroll = onscrollFun;
+
+        if ((navigator.userAgent.toLowerCase().indexOf("firefox") != -1)){
+            window.addEventListener("DOMMouseScroll", mousewheelScroll, false);
+        } else if (window.addEventListener) {
+            window.addEventListener("mousewheel", mousewheelScroll, { passive: false });
+        } else if (window.attachEvent) {
+            window.attachEvent("onmousewheel", mousewheelScroll);
+        } else {
+            window.onmousewheel = mousewheelScroll;
         }
+        function mousewheelScroll(event){
+            scrollFun(event, event.wheelDelta || (-event.detail));
+        }
+        window.addEventListener("touchstart", event => {
+            startY = event.changedTouches[0].pageY;
+        });
+        window.addEventListener("touchmove", event => {
+            scrollFun(event, event.changedTouches[0].pageY - startY);
+        }, { passive: false });
     </script>
 </body>
 

@@ -4,6 +4,11 @@ title: 使用 Jekyll 创建 Github Pages
 description: 创建 Github Pages 需要掌握的相关知识和技巧方法
 categories: 指南
 ---
+{% if site.cdn.jsdelivr.enabled %}
+    {% assign assets_url = "https://cdn.jsdelivr.net/gh/" | append: site.username | append: "/" | append: site.repo %}
+{% else %}
+    {% assign assets_url = site.url %}
+{% endif %}
 以前一直想制作个自己的博客网站，了解到 Github 的静态站点托管服务 Github Pages 后，就开始阅读相关文档，摸索着使用相关工具，利用网上的资源，终于做好了[我的 Github Pages](https://{{ site.username }}.github.io/)。
 
 本文主要总结使用 Jekyll 创建 Github Pages 需要掌握的相关知识，这些知识对于定制化自己的 Github Pages 很有帮助。还有在创建过程中使用的一些技巧方法，这些方法能使 Github Pages 更加完善。
