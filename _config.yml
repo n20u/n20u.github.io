@@ -1,5 +1,5 @@
 # Site settings
-title: n20u
+title: n20u's GitHub Blog
 description: Jekyll Theme Minimal Blog
 lang: zh-CN
 date_format: "%Y, %b %e"
@@ -43,6 +43,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-paginate
+  - jemoji
 
 cdn:
   jsdelivr:

@@ -16,7 +16,7 @@
     </a>
     <a class="post-card__inner" href="{{ post.url | relative_url }}">
         <h2 class="post-card__header">{{ post.title | strip_html | truncate: 30 }}</h2>
-        <time class="post-card__meta">{{ post.date | date: site.date_format }}</time>
+        <time class="post-card__meta">:calendar: {{ post.date | date: site.date_format }}</time>
         <p class="post-card__description">
             {% if post.description %}
                 {{ post.description | strip_html | truncatewords: 20 }}

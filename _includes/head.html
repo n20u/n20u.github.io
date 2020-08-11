@@ -1,19 +1,5 @@
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-    {% if page.description %}
-        {% assign description = page.description %}
-    {% elsif page.excerpt | number_of_words > 10 %}
-        {% assign description = page.excerpt %}
-    {% elsif post.content %}
-        {% assign description = post.content %}
-    {% else %}
-        {% assign description = site.description %}
-    {% endif %}
-    <meta name="description" content="{{ description | strip_html | truncate: 160 }}">
+    {% seo %}
     
     {% if site.cdn.jsdelivr.enabled %}
         {% assign assets_url = "https://cdn.jsdelivr.net/gh/" | append: site.username | append: "/" | append: site.repo %}

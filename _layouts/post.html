@@ -21,7 +21,7 @@ layout: compress
             {% endif %}
             <h1 class="hero__title">{{ page.title }}</h1>
             <p class="hero__meta">
-                {{ page.date | date: site.date_format }}&nbsp;&middot;
+                :calendar: {{ page.date | date: site.date_format }}&nbsp;&middot;
                 {% assign words = content | number_of_words %}
                 {% if words < 360 %}
                     1 min
@@ -61,6 +61,16 @@ layout: compress
 
     {% include footer.html %}
     {% include mathjax.html %}
+
+    <script>
+        var pageDate = new Date("{{ page.date }}"), now = new Date(), dayDiff = Math.floor((now - pageDate) / 1000 / 3600 / 24), yearDiff = Math.floor(dayDiff / 365), monthDiff = Math.floor(dayDiff / 30);
+        if (monthDiff >= 6) {
+            var article = document.getElementsByTagName("article")[0], p = document.createElement("p");
+            p.innerText = "此文章发布于" + (yearDiff ? yearDiff + "年前" : monthDiff + "个月前") + "，部分信息可能已经过时，请自行斟酌确认";
+            p.style.cssText = "background-color: #f8f8f8; color: gray; font-size: smaller; padding: 6px; border: 1px solid #dce6f0; border-left: 3px solid Salmon; border-radius: 0.3rem;";
+            article.insertBefore(p, article.firstChild);
+        }
+    </script>
 </body>
 
 </html>

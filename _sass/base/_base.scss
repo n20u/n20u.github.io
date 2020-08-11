@@ -39,6 +39,12 @@ img::selection {
   background: transparent;
 }
 
+img.emoji {
+  height: 15px;
+  width: 15px;
+  vertical-align: middle;
+}
+
 figure {
   margin: 0;
 }
