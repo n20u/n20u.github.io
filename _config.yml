@@ -1,13 +1,13 @@
 # Site settings
 title: n20u's GitHub Blog
-description: Jekyll Theme Minimal Blog
+description: 使用 Jekyll 创建的 GitHub Pages 博客
 lang: zh-CN
 date_format: "%Y, %b %e"
 # url: "localhost:4000" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
 
 # User settings
 username: n20u
-user_description: I\'m a nomad Software Engineer, always searching for the next challenge; no task is too scary nor too difficult.
+user_description: I\'m a Software Engineer, always searching for the next challenge; no task is too scary nor too difficult.
 user_title: 孤单，是一个人的狂欢
 email: gezhiwanhun@qq.com
 repo: n20u.github.io

@@ -1,4 +1,5 @@
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% seo %}
     
     {% if site.cdn.jsdelivr.enabled %}
@@ -7,5 +8,5 @@
         {% assign assets_url = site.url %}
     {% endif %}
     <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="shortcut icon" type="image/png" href="{{ '/assets/favicon.png' | prepend: assets_url }}" >
+    <link rel="shortcut icon" type="image/png" href="https://avatars3.githubusercontent.com/{{ site.username }}" >
 </head>

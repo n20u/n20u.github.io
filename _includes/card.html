@@ -15,15 +15,15 @@
         </figure>
     </a>
     <a class="post-card__inner" href="{{ post.url | relative_url }}">
-        <h2 class="post-card__header">{{ post.title | strip_html | truncate: 30 }}</h2>
+        <h2 class="post-card__header">{{ post.title | strip_html }}</h2>
         <time class="post-card__meta">:calendar: {{ post.date | date: site.date_format }}</time>
         <p class="post-card__description">
             {% if post.description %}
-                {{ post.description | strip_html | truncatewords: 20 }}
+                {{ post.description | strip_html }}
             {% elsif post.excerpt | number_of_words >= 20 %}
-                {{ post.excerpt | strip_html | truncatewords: 20 }}
+                {{ post.excerpt | strip_html }}
             {% else %}
-                {{ post.content | strip_html | truncatewords: 20 }}
+                {{ post.content | strip_html }}
             {% endif %}
         </p>
     </a>

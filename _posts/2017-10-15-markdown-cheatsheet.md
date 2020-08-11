@@ -138,7 +138,7 @@ Or leave it empty and use the [link text itself].
 
 URLs and URLs in angle brackets will automatically get turned into links.
 http://www.example.com or <http://www.example.com> and sometimes
-example.com (but not on Github, for example).
+example.com (but not on GitHub, for example).
 
 Some text to show that the reference links can follow later.
 
@@ -161,7 +161,7 @@ Or leave it empty and use the [link text itself].
 
 URLs and URLs in angle brackets will automatically get turned into links.
 http://www.example.com or <http://www.example.com> and sometimes
-example.com (but not on Github, for example).
+example.com (but not on GitHub, for example).
 
 Some text to show that the reference links can follow later.
 
@@ -197,7 +197,7 @@ Reference-style:
 <a name="code"/>
 ## Code and Syntax Highlighting
 
-Code blocks are part of the Markdown spec, but syntax highlighting isn't. However, many renderers -- like Github's and *Markdown Here* -- support syntax highlighting. Which languages are supported and how those language names should be written will vary from renderer to renderer. *Markdown Here* supports highlighting for dozens of languages (and not-really-languages, like diffs and HTTP headers); to see the complete list, and how to write the language names, see the [highlight.js demo page](http://softwaremaniacs.org/media/soft/highlight/test.html).
+Code blocks are part of the Markdown spec, but syntax highlighting isn't. However, many renderers -- like GitHub's and *Markdown Here* -- support syntax highlighting. Which languages are supported and how those language names should be written will vary from renderer to renderer. *Markdown Here* supports highlighting for dozens of languages (and not-really-languages, like diffs and HTTP headers); to see the complete list, and how to write the language names, see the [highlight.js demo page](http://softwaremaniacs.org/media/soft/highlight/test.html).
 
 ```no-highlight
 Inline `code` has `back-ticks around` it.
@@ -236,7 +236,7 @@ print s
 ```
 
 ```
-No language indicated, so no syntax highlighting in Markdown Here (varies on Github).
+No language indicated, so no syntax highlighting in Markdown Here (varies on GitHub).
 But let's throw in a <b>tag</b>.
 ```
 

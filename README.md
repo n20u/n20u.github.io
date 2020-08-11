@@ -66,7 +66,7 @@ email: gezhiwanhun@qq.com
 You can (and should) edit the `.html` files for adding your own information, icons, working experience, social links or whatever you want to add. I.e.:
 
 ```html
-<a aria-label="My Github" target="_blank" href="https://github.com/n20u">
+<a aria-label="My GitHub" target="_blank" href="https://github.com/n20u">
   <i class="icon fa fa-github-alt" aria-hidden="true"></i>
 </a>
 ```

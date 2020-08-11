@@ -93,6 +93,9 @@
 
   &__header {
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
   }
 
   &__meta {
@@ -101,5 +104,9 @@
 
   &__description {
     margin-top: 0.625rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
   }
 }

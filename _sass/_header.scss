@@ -29,9 +29,13 @@
     display: block;
     line-height: 1;
     color: #FFF;
-    @media only screen and (min-width:$md){
-      margin: 0;
-      font-size: 76px;
+    margin: 0;
+    transition: all .5s;
+    @include breakpoint($md){
+      font-size: 68px;
+    }
+    @include breakpoint($xl){
+      font-size: 75px;
     }
   }
   .site-description {
@@ -39,9 +43,15 @@
     display: block;
     line-height: 1;
     color: #FFF;
-    margin: 10px 0 25px;
-    @media only screen and (min-width:$md){
-      font-size: 34px;
+    margin: 10px 0 20px;
+    transition: all .5s;
+    @include breakpoint($md){
+      margin-bottom: 28px;
+      font-size: 28px;
+    }
+    @include breakpoint($xl){
+      margin-bottom: 35px;
+      font-size: 35px;
     }
   }
 }
@@ -64,8 +74,8 @@
     width: 20px;
     height: 20px;
     font-size: 20px;
-    padding: 10px;
-    margin: 5px;
+    padding: 8px;
+    margin: 4px;
     border-radius: 50%;
     border: 2px solid #FFF;
     transition: all .5s;
@@ -77,10 +87,20 @@
       color: $main;
       background: #FFF;
     }
-    @media only screen and (min-width:$md) {
+    @include breakpoint($md) {
+      width: 25px;
+      height: 25px;
+      font-size: 25px;
+      padding: 9px;
+      margin: 5px;
+      line-height: 25px;
+    }
+    @include breakpoint($xl) {
       width: 30px;
       height: 30px;
       font-size: 30px;
+      padding: 10px;
+      margin: 6px;
       line-height: 30px;
     }
   }
@@ -89,36 +109,44 @@
 .down {
   color: #FFF;
   position: absolute;
-  bottom: 50px;
+  bottom: 8%;
   width: 100%;
   margin: 0 auto;
   display: block;
   text-align: center;
-  font-size: 30px;
-  line-height: 30px;
+  font-size: 20px;
+  line-height: 20px;
   cursor: pointer;
   // no borders
   outline: 0 !important;
   border: none !important;
   outline-style: none !important;
   -moz-outline-style: none !important;
+  @include breakpoint($md){
+    font-size: 25px;
+    line-height: 25px;
+  }
+  @include breakpoint($xl){
+    font-size: 30px;
+    line-height: 30px;
+  }
   .icon {
-      position: absolute;
-      -webkit-transform-style: preserve-3d;
-      transform-style: preserve-3d;
-      top: 50%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-      fill: #fff;
-      padding: 10px;
-      -webkit-animation: pulse 1.3s infinite;
-      animation: pulse 1.3s infinite;
-      &:hover {
-        color: $sec;
-      }
-      &:active {
-        color: $sec;
-      }
+    position: absolute;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    fill: #fff;
+    padding: 10px;
+    -webkit-animation: pulse 1.3s infinite;
+    animation: pulse 1.3s infinite;
+    &:hover {
+      color: $sec;
+    }
+    &:active {
+      color: $sec;
+    }
   }
 }
