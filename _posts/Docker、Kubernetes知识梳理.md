@@ -1,0 +1,117 @@
+# Docker/Kubernetes知识梳理
+
+## 一、概念
+
+1. 云计算：云计算是一种资源的服务模式，该模式可以实现随时随地、便携按需地从可配置计算资源共享池中获取所需的资源（如网络、服务器、存储、应用及服务），资源能够快速供应并释放，大大减少了资源管理工作开销。
+   ![云平台经典架构](https://cdn.jsdelivr.net/gh/n20u/PicBed/blogs/knowledge_combing/20220705100423.png)
+    容器云以容器为资源分割和调度的基本单位，封装整个软件运行时环境，为开发者和系统管理员提供用于构建、发布和运行分布式应用的平台。当容器云专注于资源共享与隔离、容器编排与部署时，它更接近传统的IaaS；当容器云渗透到应用支撑与运行时环境时，它更接近传统的PaaS。
+2. Docker：Docker是以Docker容器为资源分配和调度的基本单位，封装整个软件运行时环境，为开发者和系统管理员设计的，用于构建、发布和运行分布式应用的平台。
+   Docker子命令分类：
+   |  子命令分类  |             子命令           |
+   |:-----------:|:----------------------------|
+   |Docker环境信息|info、version|
+   |容器生命周期管理|create、exec、kill、pause、unpause、rm、run、start、stop、restart|
+   |镜像仓库命令|login、logout、pull、push、search|
+   |镜像管理|build、images、import、load、rmi、save、tag、commit|
+   |容器运维操作|attach、export、inspect、port、ps、rename、stats、top、wait、cp、diff、update|
+   |容器资源管理|volume、network|
+   |系统日志信息|events、history、logs|
+   ![Docker命令结构图](https://cdn.jsdelivr.net/gh/n20u/PicBed/blogs/knowledge_combing/20220705101350.png)
+3. Kubernetes：Kubernetes项目的核心能力是要解决一个比PaaS更加基础的问题：在大规模集群中的各种任务之间运行，实际上存在各种各样的关系。处理这些关系才是作业编排和管理系统最困难的地方。
+   Kubernetes项目主要的的设计思想是，以统一的方式抽象底层基础设施能力（比如计算、存储、网络），定义任务编排的各种关系（比如亲密关系、访问关系、代理关系），将这些抽象以声明式API的方式对外暴露，从而允许平台构建者基于这些抽象进一步构建自己的Paas乃至任何上层平台。所以，Kubernetes的本质是“平台的平台”，即一个用来帮助用户构建上层平台的基础平台。
+   在Kubernetes项目中管理应用的方法是：
+      1. 首先，通过一个任务编排对象，比如Pod、Job、CronJob等，描述试图管理的应用；
+      2. 然后，为它定义一些运维能力对象，比如Service、Ingress、Horizontal Pod Autoscaler（自动水平扩展器）等，这些对象会负责具体的运维能力侧功能。
+   这种使用方法就是所谓的“声明式API”。这种API对应的编排对象和服务对象，都是Kubernetes项目中的API对象。
+
+## 二、Docker容器
+
+1. 内核知识：Docker容器本质上就是进程。在创建Docker容器时，Docker引擎通过启用Namespace来隔离进程视图，通过配置Cgroups来限制进程资源，通过切换进程的根目录来提供一个独立的文件系统。
+   - Linux提供了6种Namespace，分别是：
+       | namespace |          隔离内容          |
+       | :-------: | :------------------------: |
+       |    UTS    |        主机名与域名        |
+       |    IPC    | 信号量、消息队列和共享内存 |
+       |    PID    |           进程号           |
+       |  Network  |  网络设备、网络栈、端口等  |
+       |   Mount   |     挂载点（文件系统）     |
+       |   User    |        用户和用户组        |
+       一个进程的每种Linux Namespace都在它对应的/proc/[进程号]/ns目录下有一个对应的软链接文件，其链接到一个真实的Namespace文件上。一个进程可以通过名为setns()的Linux系统调用，加入一个已经存在的Namespace当中。
+   - Linux Cgroups最主要的作用就是限制进程能够使用的资源上限，包括CPU、内存、磁盘、网络带宽等。它暴露的操作接口是文件系统，就是一个子系统目录加上一组资源限制文件的组合，通过修改文件的内容来设置资源限制。
+   - 为了给容器进程提供隔离后执行环境，会在容器的根目录下挂载一个完整操作系统的文件系统，就是所谓的“容器镜像”，也称根文件系统（rootfs）。rootfs的存在，赋予了容器所谓的一致性：在任何一台机器上，用户只要解压打包好的容器镜像，就能重现应用运行所需的完整执行环境。
+2. 架构原理
+   ![Docker架构总览](https://cdn.jsdelivr.net/gh/n20u/PicBed/blogs/knowledge_combing/20220707094209.png)
+   1. Docker daemon是Docker架构中的主要用户接口，它提供了API Server用于接收来自Docker client的请求，其后根据不同的请求分发给Docker daemon的不同模块执行相应的工作。
+   2. 当需要创建Docker容器时，可通过镜像管理（image management）部分的distribution和registry模块从Docker registry中下载镜像，并通过镜像管理的image、reference和layer存储镜像的元数据，通过镜像存储驱动graphdriver将镜像文件存储于具体的文件系统中。存储驱动目前有aufs、btrfs、devicemapper、vfs、overlay、zfs这6种。
+   3. 当需要限制Docker容器运行资源或执行用户指令等操作时，则通过execdriver来完成。libcontainer是对cgroups和namespace的二次封装，execdriver是通过libcontainer来实现对容器的具体管理，包括利用UTS、IPC、PID、Network、Mount、User等namespace实现容器之间的资源隔离和利用cgroups实现对容器的资源限制。
+   4. 当需要为Docker容器创建网络环境时，通过网络管理模块network调用libnetwork创建并配置Docker容器的网络环境。libnetwork中内置5种驱动：bridge驱动、host驱动、overlay驱动、remote驱动、null驱动。
+   5. 当需要为容器创建数据卷volume时，则通过volume模块调用某个具体的volumedriver，来创建一个数据卷并负责后续的绑定挂载操作。
+3. Docker镜像：Docker镜像实际上就是一个根文件系统（rootfs），不过是由多个层组成，每个层是一个增量rootfs，也即一部分文件与目录。在使用镜像时，Docker会把这些增量联合挂载在一个统一的挂载点上。
+   容器的rootfs由3部分组成：
+      - 只读层：只读层位于容器的rootfs的最下方，对应的正是容器镜像中的所有增量rootfs。
+      - 可读写层：可读写层位于容器的rootfs的最上方，以Copy-on-Write的方式存放修改rootfs后所产生的的增量。
+      - Init层：Init层位于只读层和可读写层之间，用来存放只对当前容器有效的临时修改配置产生的增量。
+   docker commit会把最上层的可读写层加上原先容器镜像的只读层，打包成一个新镜像，而不会打包Init层。
+4. Docker数据卷（Volume）：Docker数据卷能够将宿主机上指定的目录或文件挂载到容器中进行读取和修改。Docker项目支持两种数据卷声明方式：一种显示声明宿主机目录，另一种隐式声明宿主机目录。当隐式声明宿主机目录时，Docker默认在宿主机上创建一个临时目录/var/lib/docker/volumes/[VOLUME_ID]/_data。然后Docker把宿主机目录挂载到容器对应的目录上。
+   - Docker挂载数据卷的核心原理：当容器进程被创建之后，即开启了Mount Namespace。然后，容器镜像的各个层会被联合挂载在/var/lib/docker/aufs/mnt目录中，这样容器所需的rootfs就准备好了。在执行chroot之前，把数据卷指定的宿主机目录**绑定挂载**到指定的容器目录在宿主机上对应的目录上，数据卷的挂载工作就完成了。最后切换进程的根目录即可。
+   - 绑定挂载的主要作用是：将一个目录或者文件挂载到指定路径上，在该挂载点上进行的任何操作只发生在被挂载的目录或者文件上，而原挂载点的内容会被隐藏起来且不受影响。绑定挂载的机制：实际上是一个inode替换的过程。在Linux操作系统中，inode保存的是文件的元信息，目录项是访问inode所使用的“指针”。绑定挂载会将容器目录在宿主机上对应的目录项重定向到数据卷指定的宿主机目录的inode。
+5. 容器与虚拟机的比较
+   1. 容器是宿主机上的进程，而虚拟机需要运行一个完整的操作系统才能执行用户的应用进程，会带来额外的资源占用和性能损耗；
+   2. 容器只是宿主机上的进程，那么一台宿主机上的所有容器使用的就是同一个操作系统内核，带来的问题就是：隔离得不彻底，例如：Windows宿主机上不能运行Linux容器，低版本的Linux宿主机上不能运行高版本的Linux容器；还有，如果容器中的进程修改了系统时间，那么宿主机的时间会被随之修改；如果应用程序需要配置内核参数、加载额外的内核模块，以及跟内核进行直接交互，会操作和依赖宿主机的操作系统内核，影响宿主机上的所有容器；
+   3. 容器镜像只是一个操作系统的所有文件和目录，不包含内核，虚拟机的镜像是一个磁盘的“快照”，占用体积更大；
+   4. 容器的优势：敏捷、高性能，虚拟机的优势：安全，用途广。
+
+## 三、Kubernetes
+
+1. 架构：Kubernetes项目由控制节点Master和计算节点Node组成。
+   - 控制节点Master由3个紧密协作的独立组件组成，分别是负责API服务的API Server（kube-apiserver）、负责调度的调度器（kube-scheduler），以及负责容器编排的控制器管理器（kube-controller-manager）。整个集群的持久化数据由API Server处理后通过gRPC协议保存在etcd中。
+   - 计算节点Node上最核心的部分，是一个名为kubelet的组件，其主要负责通过容器运行时接口CRI（container runtime interface）同容器运行时（比如Docker项目）交互。容器运行时一般通过OCI这个容器运行时规范同底层的Linux操作系统交互，把CRI请求翻译成对Linux操作系统的调用（操作Linux Namespace和Cgroups等）。
+   - kubelet通过容器网络接口CNI（container networking interface）调用网络插件为容器配置网络，通过容器存储接口CSI（container storage interface）调用存储插件为容器配置持久化存储。
+   - 此外，kubelet还通过gRPC协议同设备插件交互，这个插件是Kubernetes项目用来管理GPU等宿主机物理设备的主要组件。
+2. Kubernetes编排原理：Kubernetes项目通过名为“控制器模式”的设计思想，来统一编排各种对象或者资源。控制器都遵循Kubernetes项目中的一个通用编排模式——控制循环（control loop）。控制循环不断获取编排对象在集群中的实际状态和期望状态，然后根据这两种状态之间的差异，执行编排动作，将实际状态调整为期望状态，这个操作通常称作调谐（reconcile）。调谐的最终结果往往是对被控制对象的某种写操作，比如：增加Pod，删除已有的Pod，或者更新Pod的某个字段。这也是Kubernetes项目“面向API对象编程”的一个直观体现。
+   1. Pod：Kubernetes项目中的最小编排单位是Pod，Pod其实是一组共享了某些资源的容器。具体地说，Pod里的所有容器都共享一个Network Namespace，并且可以声明共享同一个数据卷。
+      - 在Kubernetes项目里，Pod的实现需要使用一个中间容器，这个容器叫作Infra容器。Infra容器永远是Pod中第一个被创建的容器，用户定义的其他容器则通过加入Network Namespace的方式与Infra容器关联在一起。Infra容器一定要占用极少的资源，所以它使用的是一个用汇编语言编写的、永远处于“暂停”状态的镜像，解压后的大小也只有100~200KB。
+      - Kubernetes项目为了共享数据卷，要把所有数据卷的定义都设计在Pod层级。这样，一个数据卷对应的宿主机目录对于Pod来说就只有一个，Pod里的容器只要声明挂载这个数据卷，就可以共享这个数据卷对应的宿主机目录。
+      在Kubernetes中有几种特殊的Volume，它们存在是为容器提供预先定义好的数据。从容器的角度来看，这些Volume里的信息就仿佛是被Kubernetes“投射”进入容器中的，这正是Projected Volume的含义。目前Kubernetes支持的常用Projected Volume共有以下4种：
+      1. Secret：Secret的作用是把Pod想要访问的加密数据存放到etcd中，就可以通过在Pod的容器里挂载Volume的方式访问这些Secret里保存的信息了。
+      2. ConfigMap：ConfigMap与Secret类似，区别在于ConfigMap保存的是无须加密的、应用所需的配置信息。
+      3. Downward API：Downward API的作用是让Pod里的容器能够直接获取这个Pod API对象本身的信息。
+      4. ServiceAccountToken：Service Account对象是Kubernetes系统内置的一种“服务账户”，它是Kubernetes进行权限分配的对象。Service Account的授权信息和文件，实际上保存在它所绑定的一个特殊的Secret对象里。这个特殊的Secret对象叫作ServiceAccountToken。任何在Kubernetes集群上运行的应用，都必须使用ServiceAccountToken里保存的授权信息（也就是Token），才可以合法地访问API Server。
+   2. Deployment：Deployment实现了Kubernetes项目中Pod的“水平扩展/收缩”功能，遵循滚动更新的方式来升级或降级现有容器。
+      原理：Deployment实际上是一个两层控制器：它通过ReplicaSet的个数来描述应用的版本，通过ReplicaSet的属性（比如replicas的值）来保证Pod的副本数量。
+   3. StatefulSet：StatefulSet把现实世界里的应用状态抽象为了拓扑状态和存储状态两种情况，StatefulSet通过某种方式记录这些状态，然后在Pod被重新创建时，能够为新Pod恢复这些状态。
+      1. Service是Kubernetes项目中用来将一组Pod暴露给外界访问的一种机制，访问Service有两种方式：第一种是以Service的VIP（virtual IP，虚拟IP）方式，访问Service的IP地址时，它会把请求转发到其代理的某一个Pod上；第二种是以Service的DNS方式，具体又分为两种处理方法：第一种处理方法是Normal Service，访问DNS解析到的是Service的VIP；第二种处理方法是Headless Service，访问DNS解析到的是Service代理的某一个Pod的IP地址。
+      2. PVC中声明了想要的Volume的属性，PV中定义了具体类型的Volume，两者类似于“接口”和“实现”的关系。
+      3. StatefulSet的工作原理：
+         1. StatefulSet的控制器直接管理的是Pod，通过在Pod的名字里加上事先约定好的编号来区分不同Pod实例；
+         2. Kubernetes通过Headless Service为这些有编号的Pod，在DNS服务器中生成带有相同编号的DNS记录。Service机制本身的能力保证了DNS记录解析出来的Pod的IP地址，会随着后端Pod的删除和重建而自动更新。
+         3. StatefulSet为每一个Pod分配并创建一个相同编号的PVC，Kubernetes就可以通过Persistent Volume机制为这个PVC绑定对应的PV，从而保证了每个Pod都拥有一个独立的Volume。
+   4. DaemonSet：DaemonSet只管理Pod对象，然后通过nodeAffinity和Toleration这两个调度器的小功能，保证了每个节点上有且只有一个Pod。
+      原理：DaemonSet Controller首先从etcd里获取所有的节点列表，然后遍历所有节点，根据每个节点的检查结果执行相应的调谐工作。
+   5. Job与CronJob：Job Controller控制的对象直接就是Pod，CronJob Controller控制的对象是Job。两者都是离线业务的编排方法。
+
+## 四、Istio
+
+1. 概念：Istio是一个与Kubernetes紧密结合的适用于云原生场景的Service Mesh形态的用于服务治理的开发平台。其中，服务治理涉及连接、安全、策略执行和可观察性。
+2. 架构：Istio分为控制面和数据面两部分，控制面主要包括Pilot、Mixer、Citadel等服务组件；数据面由伴随每个应用程序部署的代理程序Envoy组成，执行针对应用程序的治理逻辑。
+   1. Pilot是Istio控制面流量管理的核心组件，管理和配置部署在Istio服务网格中的所有Envoy代理实例，允许用户创建Envoy代理之间的流量转发路由规则，并配置故障恢复功能。
+   2. Istio可以通过灵活的模型来执行服务间的访问策略，并为各服务收集遥测数据，Mixer正是负责执行访问策略和收集遥测数据的组件。
+   3. Citadel是Istio最核心的安全组件之一，它主要负责证书的颁发和轮换。Istio默认提供的双向TLS安全功能就是依赖Citadel签发的证书进行TLS认证的。
+   4. Envoy是Istio数据面的核心组件，作为Sidecar和应用部署在同一个Pod中。Envoy本身不会干扰正常的应用运行，当流量进入应用或从应用流出时，都会经过Envoy所在的容器。在这个过程中，Envoy一方面实现了基础的路由功能；另一方面通过规则设置实现了流量治理、信息监控等核心功能。
+   5. Galley是Istio配置信息管理的核心组件，负责校验进入网格的配置信息，保证配置信息的格式和内容的正确性；并负责从底层平台接收、分发配置信息到网格中的其他组件，从而将其他组件与获取用户配置信息的底层平台隔离开来。
+
+## 五、etcd
+
+1. 概念：etcd是一个可靠的分布式KV存储，其底层使用Raft算法保持一致性，主要用于共享配置和服务发现。
+2. Raft协议：一种用于管理复制日志的一致性算法。
+   1. Leader选举
+      - Raft协议的工作模式是Leader-Follower模式，每个节点都维护了一个状态机，该状态机有三种状态，分别是Leader状态、Follower状态和Candidate状态。
+      - Leader节点周期性地向集群中其他Follower节点发送心跳信息。Follower节点在接收不到Leader节点的心跳信息之后，等待一个选举超时时间，然后切换成Candidate状态发起新一轮选举。
+      - 在选举过程中，Candidate节点首先会将自己的选票投给自己，并会向集群中其他节点发送选举请求以获取其选票，其他节点则会将自己的选票投给当前任期中最先收到的选举请求。
+      - 当某个Candidate节点收到了集群中超过半数的选票，便当选为Leader节点；否则本任期的选举失败，等待选举计时器超时发起新一轮的选举。
+   2. 日志复制：Leader节点除了向Follower节点发送心跳信息，还会处理客户端的请求，并将客户端的更新操作以Append Entries消息的形式发送到集群中所有的Follower节点。当Leader节点收到半数以上的Follower节点的响应消息后，会对客户端的请求进行应答。最后，Leader节点会提交客户端的更新操作，该过程会发送Append Entries消息到Follower节点，通知Follower节点该操作已经提交，同时Leader节点和Follow节点也就可以将该操作应用到自己的状态机中。
+
+## 十一、云原生
+
+云原生是一套指导软件与基础设施架构设计的思想，基于这套思想构建出来的应用和应用基础设施，将天然地能够与“云”集成，充分发挥“云”的能力和价值。
+云原生思想，就是“以应用为中心”。正是因为以应用为中心，云原生技术体系才会无限强调让基础设施能更好地配合应用，以更高效的方式为应用“输送”基础设施能力。相应地，Kubernetes、Docker、Operator等在云原生生态中起关键作用的开源项目，就是让这种思想落地的技术手段。
