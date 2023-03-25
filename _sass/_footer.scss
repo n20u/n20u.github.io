@@ -1,8 +1,11 @@
 .footer {
   background: $main;
-  padding: 6px 0;
   text-align: center;
   color: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8%;
   .love {
     color: red;
   }

@@ -39,6 +39,14 @@
     max-width: 40em;
   }
 
+  .label {
+    margin-bottom: 0.5rem;
+
+    @include breakpoint($md) {
+      margin-bottom: 1rem;
+    }
+  }
+
   .hero__title {
     margin: 0;
     font-size: 1.5em;
@@ -91,16 +99,20 @@
   @include breakpoint($lg) {
     max-width: 960px
   }
-  @include breakpoint($sm) {
+  @include breakpoint($xl) {
     max-width: 1170px
   }
 }
 
 .post-list {
-  padding-top: 2.5em;
+  padding-top: 5.8vh;
   display: flex;
+  align-content: flex-start;
   flex-wrap: wrap;
-  flex: 1 0 auto;
+
+  width: 90%;
+  height: 85%;
+  margin: 0 5%;
 }
 
 .archive-group {

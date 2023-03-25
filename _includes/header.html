@@ -3,10 +3,10 @@
         <h1 class="site-title">{{ site.username }}</h1>
         <h1 class="site-description">{{ site.user_title }}</h1>
         <div class="header-icons">
-            <a aria-label="Send email" href="mailto:gezhiwanhun@qq.com"><i class="icon iconfont icon-youxiang"></i></a>
+            <a aria-label="Send email" href="mailto:{{ site.email }}"><i class="icon iconfont icon-youxiang"></i></a>
             <a aria-label="My LinkedIn" target="_blank" href="https://www.linkedin.com/"><i class="icon iconfont icon-linkedin"></i></a>
-            <a aria-label="My GitHub" target="_blank" href="https://github.com/n20u"><i class="icon iconfont icon-github"></i></a>
+            <a aria-label="My GitHub" target="_blank" href="https://github.com/{{ site.username }}"><i class="icon iconfont icon-github"></i></a>
         </div>
     </div>
-    <a class="down" data-scroll onclick="downScroll();"><i class="icon iconfont icon-xiangxia"></i></a>
+    <a class="down" data-scroll onclick="goDown();"><i class="icon iconfont icon-xiangxia"></i></a>
 </div>

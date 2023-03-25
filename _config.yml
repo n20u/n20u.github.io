@@ -1,15 +1,15 @@
 # Site settings
-title: n20u's GitHub Blog
-description: 使用 Jekyll 创建的 GitHub Pages 博客
+title: n20u
+description: follow the interest
 lang: zh-CN
 date_format: "%Y, %b %e"
 # url: "localhost:4000" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
 
 # User settings
 username: n20u
-user_description: I\'m a Software Engineer, always searching for the next challenge; no task is too scary nor too difficult.
-user_title: 孤单，是一个人的狂欢
-email: gezhiwanhun@qq.com
+user_description: To do, to be, to dream.
+user_title: believer of loneliness
+email: n20u@nerif.anonaddy.com
 repo: n20u.github.io
 
 exclude: ['package.json', 'src' , 'node_modules']
@@ -52,3 +52,11 @@ cdn:
 # Gitalk setting
 clientID: 0d4bbf4e2e839017b19f
 clientSecret: 9d7f3f7318c026a7a92d6e75ad659565d4f7ca38
+
+defaults:
+  -
+    scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"

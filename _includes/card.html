@@ -1,30 +1,30 @@
 <div class="post-card">
-    {% if post.categories %}
-        <span class="post-card__label">
-            {% for category in post.categories %}
-                <a href="{{ site.url }}/categories/#{{category|slugize}}" class="label"> {{ category }} </a>
-                {% unless forloop.last %}&nbsp;{% endunless %}
-            {% endfor %}
-        </span>
-    {% endif %}
-    <a href="{{ post.url | relative_url }}">
-        <figure class="post-card__thumb">
-            <img src="{{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_placehold.jpg" data-srcset="{{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_thumb.jpg, {{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_thumb@2x.jpg 2x"
-            class="lazyload blur" alt="{{post.title}}"/>
-            <noscript><img src="{{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_thumb.jpg" alt="{{ post.title }}"/></noscript>
-        </figure>
-    </a>
-    <a class="post-card__inner" href="{{ post.url | relative_url }}">
-        <h2 class="post-card__header">{{ post.title | strip_html }}</h2>
-        <time class="post-card__meta">:calendar: {{ post.date | date: site.date_format }}</time>
-        <p class="post-card__description">
-            {% if post.description %}
-                {{ post.description | strip_html }}
-            {% elsif post.excerpt | number_of_words >= 20 %}
-                {{ post.excerpt | strip_html }}
-            {% else %}
-                {{ post.content | strip_html }}
-            {% endif %}
-        </p>
-    </a>
+    <figure class="post-card__thumb">
+        <img src="{{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_placehold.jpg" data-srcset="{{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_thumb.jpg, {{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_thumb@2x.jpg 2x"
+        class="lazyload blur" alt="{{post.title}}"/>
+        <noscript><img src="{{ assets_url }}/assets/img/posts/{{post.slug}}/{{post.slug}}_thumb.jpg" alt="{{ post.title }}"/></noscript>
+    </figure>
+    <div class="post-card__inner">
+        {% if post.categories %}
+            <span class="post-card__label">
+                {% for category in post.categories %}
+                    <a href="{{ site.url }}/categories/#{{category|slugize}}" class="label"> {{ category }} </a>
+                    {% unless forloop.last %}&nbsp;{% endunless %}
+                {% endfor %}
+            </span>
+        {% endif %}
+        <a class="post-card__abstract" href="{{ post.url | relative_url }}">
+            <h3 class="post-card__header">{{ post.title | strip_html }}</h3>
+            <time class="post-card__meta">:calendar: {{ post.date | date: site.date_format }}</time>
+            <p class="post-card__description">
+                {% if post.description %}
+                    {{ post.description | strip_html }}
+                {% elsif post.excerpt | number_of_words >= 20 %}
+                    {{ post.excerpt | strip_html }}
+                {% else %}
+                    {{ post.content | strip_html }}
+                {% endif %}
+            </p>
+        </a>
+    </div>
 </div>

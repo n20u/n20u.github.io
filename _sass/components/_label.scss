@@ -8,16 +8,11 @@
   border: 2px solid rgba(255,255,255,0.5);
   border-radius: 100px;
   transition: all 0.2s ease;
-  margin-bottom: 0.5rem;
 
   &:focus,
   &:hover {
     color: $bg-color;
     background-color: $primary;
     border: 2px solid $primary;
-  }
-
-  @include breakpoint($md) {
-    margin-bottom: 1rem;
   }
 }
