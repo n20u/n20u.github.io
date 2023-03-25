@@ -2,7 +2,7 @@
   display: block;
   position: relative;
   width: 100%;
-  max-height: 12%;
+  height: 12%;
   border-radius: 5px;
   overflow: hidden;
   background-color: $bg-color;
@@ -16,13 +16,13 @@
 
   @include screenAspectRatio($xnarrow) {
     width: 100%;
-    max-height: 12%;
+    height: 12%;
     margin-bottom: 3.6vh;
   }
 
   @include screenAspectRatio($narrow) {
     width: 48.4375%;
-    max-height: 29%;
+    height: 29%;
     margin-bottom: 3.3vh;
 
     &:not(:last-of-type), &:not(:nth-child(2n+2)) {
@@ -35,7 +35,7 @@
 
   @include screenAspectRatio($flat) {
     width: 31.25%;
-    max-height: 45%;
+    height: 45%;
     margin-bottom: 3.9vh;
 
     &:not(:last-child), &:not(:nth-child(3n+3)) {
@@ -48,7 +48,7 @@
 
   @include screenAspectRatio($xflat) {
     width: 14.06%;
-    max-height: 93%;
+    height: 93%;
     margin-bottom: 5.4vh;
 
     &:not(:last-of-type) {
