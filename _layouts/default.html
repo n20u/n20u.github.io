@@ -13,7 +13,7 @@ layout: compress
     body {
         position: relative;
         top: 0;
-        transition: all 1000ms ease;
+        transition: top 1000ms ease;
     }
     body::-webkit-scrollbar {
         width: 0;
@@ -128,13 +128,15 @@ layout: compress
             touchStartY = event.touches[0].pageY;
         });
         function touchEnd (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var touchEndY = event.changedTouches[0].pageY;
-            if (touchEndY - touchStartY < 0) {
-                goDown();
-            } else {
-                goUp();
+            var touchDiff = event.changedTouches[0].pageY - touchStartY;
+            if (Math.abs(touchDiff) > 5) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (touchDiff < 0) {
+                    goDown();
+                } else {
+                    goUp();
+                }
             }
         }
         document.addEventListener('touchend', touchEnd);

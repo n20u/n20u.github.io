@@ -5,3 +5,14 @@
 <script src="{{ '/assets/js/sweet-scroll.min.js' | prepend: assets_url }}"></script>
 <script src="{{ '/assets/js/main.js' | prepend: assets_url }}"></script>
 <script src="{{ '/assets/js/bundle.js' | prepend: assets_url }}"></script>
+<script>
+    const coverSrcRe = new RegExp("(?<=assets/img/posts/).*?/(?=placehold|thumb)");
+
+    function replaceCoverImg(image) {
+        if (coverSrcRe.test(image.src)) {
+            image.src = image.src.replace(coverSrcRe, "");
+            image.setAttribute("data-srcset", image.getAttribute("data-srcset").replace(coverSrcRe, ""))
+        }
+        image.onerror = null;
+    };
+</script>
