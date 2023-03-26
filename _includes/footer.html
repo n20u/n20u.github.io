@@ -6,7 +6,7 @@
 <script src="{{ '/assets/js/main.js' | prepend: assets_url }}"></script>
 <script src="{{ '/assets/js/bundle.js' | prepend: assets_url }}"></script>
 <script>
-    const coverSrcRe = new RegExp("(?<=assets/img/posts/).*?/(?=placehold|thumb)");
+    const coverSrcRe = new RegExp("(?<=assets/img/posts/).*?/(?=placehold|thumb)", "g");
 
     function replaceCoverImg(image) {
         if (coverSrcRe.test(image.src)) {
