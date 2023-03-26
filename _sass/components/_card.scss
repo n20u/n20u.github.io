@@ -90,16 +90,20 @@
     height: 100%;
     border-bottom: 0;
     box-sizing: border-box;
-    background: linear-gradient(rgba($color: white, $alpha: 0), rgba($color: white, $alpha: 0.2));
+    background: linear-gradient(rgba($color: white, $alpha: 0), rgba($color: white, $alpha: 0.3));
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 
+  &__label > a {
+    background-color: $button-dark;
+  }
+
   &__abstract {
     border-bottom: 0;
-    color: $grey;
+    color: $text-color;
 
     &:hover, &:focus {
       border-bottom: 0;
