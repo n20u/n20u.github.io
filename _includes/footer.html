@@ -11,7 +11,9 @@
     function replaceCoverImg(image) {
         if (coverSrcRe.test(image.src)) {
             image.src = image.src.replace(coverSrcRe, "");
-            image.setAttribute("data-srcset", image.getAttribute("data-srcset").replace(coverSrcRe, ""))
+            const newSrcset = image.getAttribute("data-srcset").replace(coverSrcRe, "");
+            image.setAttribute("data-srcset", newSrcset);
+            image.setAttribute("srcset", newSrcset);
         }
         image.onerror = null;
     };

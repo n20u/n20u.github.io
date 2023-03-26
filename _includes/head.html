@@ -7,7 +7,7 @@
         
     {% seo %}
     
-    {% if site.cdn.jsdelivr.enabled %}
+    {% if site.cdn.jsdelivr.enabled and jekyll.environment != "development" %}
         {% assign assets_url = "https://cdn.jsdelivr.net/gh/" | append: site.username | append: "/" | append: site.repo %}
     {% else %}
         {% assign assets_url = site.url %}
