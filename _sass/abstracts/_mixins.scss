@@ -27,8 +27,8 @@
   }
 }
 
-@mixin screenAspectRatio($aspectRatio) {
-  @media only screen and (min-aspect-ratio:#{$aspectRatio}) {
+@mixin aspectRatio($aspectRatio) {
+  @media (min-aspect-ratio:#{$aspectRatio}) {
     @content;
   }
 }
