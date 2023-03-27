@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8vh;
+  height: 9vh;
   user-select: none;
 
   div {
@@ -15,12 +15,15 @@
     display: inline-block;
     cursor: pointer;
     border: 1px solid #CFD8DC;
-    margin-left: -1px;
-    width: 2rem;
-    height: 2rem;
+    width: 3.6vh;
+    height: 3.6vh;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:not(:first-of-type) {
+      border-left: 0;
+    }
   }
 
   a:hover {
