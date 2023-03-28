@@ -12,18 +12,24 @@
   }
 
   a, span, em {
-    display: inline-block;
-    cursor: pointer;
     border: 1px solid #CFD8DC;
     width: 3.6vh;
     height: 3.6vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 2vh;
+    line-height: 3.6vh;
+    text-align: center;
 
     &:not(:first-of-type) {
       border-left: 0;
     }
+  }
+
+  a, em {
+    cursor: pointer;
+  }
+
+  span {
+    cursor: not-allowed;
   }
 
   a:hover {
