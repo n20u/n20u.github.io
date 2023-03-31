@@ -15,8 +15,8 @@ repo: n20u.github.io
 exclude: ['package.json', 'src' , 'node_modules']
 
 # BUILD SETTINGS
-markdown: kramdown
-highlighter: rouge # or pygments or null
+# markdown: kramdown
+# highlighter: rouge # or pygments or null
 # theme: jekyll-sleek # Uncomment if you're using the theme as a ruby gem
 exclude:
   - README.md
